@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<head>
+  <title>Handle bars Sample</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js" type="text/javascript"></script>
+  <style>
+    .redText{
+      color: red;
+    }
+    .blueText{
+      color: blue;
+    }
+    .greenText{
+      color: green;
+    }
+  </style>
+  </head>
+<body>
+  
+    <div id="quoteData">
+      <script id="quotesTemplate" type="text/x-handlebars-template">
+        
+        <h3>Favorite {{name}} Quotes</h3>
+        <ol>
+          {{#each quotes}}
+            <li>{{quote}}</li>
+          {{/each}}
+        </ol>
+
+        {{{sandeepBio}}} <br/><br/>
+
+        {{makeLink "Sandeep Pulikallu" "http://google.com"}} <br/>
+
+        {{changeColor "My my text red" color="blue"}} <br/>
+
+        {{sayHello}}
+
+      </script>
+      <script type="text/javascript">
+
+        var quoteInfo = document.getElementById("quotesTemplate").innerHTML;
+        var template = Handlebars.compile(quoteInfo);
+
+        Handlebars.registerHelper("makeLink", function(text, url){
+          text = Handlebars.Utils.escapeExpression(text);
+          url = Handlebars.Utils.escapeExpression(url);
+
+          var theLink = '<a href="'+url+'">'+ text +'</a>';
+          return new Handlebars.SafeString(theLink);
+
+        });
+
+        Handlebars.registerHelper("changeColor", function(text, attr){
+          text = Handlebars.Utils.escapeExpression(text);
+  
+          if(attr.hash.color === "red"){
+            return new Handlebars.SafeString("<span class='redText'>"+text+"</span>")
+          }
+          else if(attr.hash.color === "green"){
+            return new Handlebars.SafeString("<span class='greenText'>"+text+"</span>")
+          }
+          else if(attr.hash.color === "blue"){
+            return new Handlebars.SafeString("<span class='blueText'>"+text+"</span>")
+          }      
+        });
+
+        Handlebars.registerHelper("sayHello", function(options){
+
+          switch(options.data.lang){
+            case "spanish":
+              return "Hola Hola";
+              break;
+
+            case "english": 
+              return "Hello Hello";
+              break;
+
+            default:
+              return "you dont belong here";
+            
+          }
+
+        });
+
+        var quoteData = template({
+          name: "Sandeep Pulikallu",
+          quotes:[
+            { 
+              quote: "Hello1"
+            },
+            { 
+              quote: "Hello2"
+            },
+            { 
+              quote: "Hello3"
+            },
+            { 
+              quote: "Hello4"
+            },
+            { 
+              quote: "Hello5"
+            }
+          ],
+          sandeepBio: "<i>This is my bioData</i>"    
+        },       
+        { 
+          data:{
+              lang: "english"
+            }
+          }
+        );    
+       
+        document.getElementById("quoteData").innerHTML += quoteData;
+      </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<head>
+  <title>Handle bars Sample</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js" type="text/javascript"></script>
+  </head>
+<body>
+  
+    <div id="contentDiv">
+      <script id= "templateScript" type="text/x-handlebars-template">
+        
+        {{>myName}}
+
+        <h1>This are the comments </h1>
+
+        {{>displayComment tagName="h2"}}
+
+        {{#each comments}}
+          {{>displayComment tagName="h4"}}
+        {{/each}}
+    
+      </script>
+      <script type="text/javascript">      
+      var template = Handlebars.compile(document.getElementById("templateScript").innerHTML);
+      Handlebars.registerPartial("myName", "{{name}}");
+      Handlebars.registerPartial("displayComment", "<{{tagName}}>{{cm}}</{{tagName}}<br/>")
+
+      var templateData = template({
+        name: "Sandeep",
+        cm: "yello yello",
+        comments: [
+         { cm: "This is one the comments 1" },
+         { cm: "This is one the comments 2" },
+         { cm: "This is one the comments 3" },
+         { cm: "This is one the comments 4" },
+         { cm: "This is one the comments 5" }
+        ]
+      });
+
+      document.getElementById("contentDiv").innerHTML += templateData;
+    
+      </script>
+    </div>
+</body>
+</html>

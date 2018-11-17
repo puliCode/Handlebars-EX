@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+  <title>Handle bars Sample</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js" type="text/javascript"></script>
+  </head>
+<body>
+  
+    <div id="contentData">
+      <script id="radioListElement" type="text/x-handlebars-template">
+
+        {{#makeRadio name}}
+          small
+          medium
+          large
+        {{/makeRadio}}
+
+        <br/><br/>
+        {{#areEqual 1 2}}
+          Both the number are equal 
+        {{else}}
+          Both the numbers are not equal
+        {{/areEqual}}
+
+        <br/><br/>
+        {{#if "isActive"}}
+          What ever getting displayed is active state
+        {{else}}
+          What ever getting displayed here is not active state
+        {{/if}}
+     
+      </script>
+      <script type="text/javascript">
+      
+      var radioTemplate = Handlebars.compile(document.getElementById("radioListElement").innerHTML);
+      Handlebars.registerHelper("makeRadio", function(name, options){
+        var radioList = options.fn();
+        radioList = radioList.trim().split("\n");
+        var output="";
+        for(var i in radioList){
+          output += "<input type='radio' name='"+name+"'value='"+radioList[i]+"'>"+radioList[i] +"<br/>";
+        }
+        return output;
+
+      });
+
+      Handlebars.registerHelper("areEqual", function(num1, num2, options){
+          if(num1 === num2){
+            return options.fn(this);
+          }
+          else{
+            return options.inverse(this);
+          }
+      });
+
+      Handlebars.registerHelper("if", function(state, options){
+        if(state === "isActive"){
+          return options.fn(this);
+        }
+        else{
+          return options.inverse(this);
+        }
+      });
+
+      document.getElementById("contentData").innerHTML += radioTemplate({}); 
+      
+      
+      </script>
+    </div>
+</body>
+</html>

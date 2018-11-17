@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+  <title>Handle bars Sample</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js" type="text/javascript"></script>
+  </head>
+<body>
+  
+    <div id="contentDiv">
+      <script id= "templateScript" type="text/x-handlebars-template">
+      
+        {{title}}
+        {{#with techData}}
+          {{{name}}}
+       
+          {{{address.street}}}
+          {{{address.addressline1}}}
+      
+        {{/with}}
+
+      </script>
+      <script type="text/javascript">
+      
+      var template = Handlebars.compile(document.getElementById("templateScript").innerHTML);
+      Handlebars.registerHelper("with", function(context, options){
+        return options.fn(context);
+      })
+
+      var templateData = template({
+        title:"hello",
+        techData: {
+          name: "sandeep",
+          address:{
+            street: "F 206",
+            addressline1: "address line1"
+          }
+        }
+      })
+
+      document.getElementById("contentDiv").innerHTML += templateData;
+      
+
+      </script>
+    </div>
+</body>
+</html>
